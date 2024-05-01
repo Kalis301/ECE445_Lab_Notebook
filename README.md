@@ -50,10 +50,12 @@ Lots of things went wrong today. We need drastic changes to our system. First of
 
 **April 2nd**
 I have been trying to find various ways to use bluetooth compatabilty that the esp32 has for our app. There are a lot of sources that utliize it in many different ways. Bluetooth functionality. Trying to learn via this stack overflow link: https://stackoverflow.com/questions/57105709/how-to-connect-android-app-to-esp32-via-bluetooth. ALso watched a couple YouTube vidoes. https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.youtube.com/watch%3Fv%3DaE8EbDmrUfQ&ved=2ahUKEwihl7Kbxu2FAxX04MkDHcLKANQQwqsBegQIDxAG&usg=AOvVaw0kwJC0zBNWrLpYWNhPz74E
-PSEDOCODE: protected void onCreate(Bundle savedInstanceState) {
+PSEDOCODE:
+
+protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
         textViewStatus = (TextView) findViewById(R.id.textViewStatus);
         textViewDistance = (TextView) findViewById(R.id.textViewDistance);
         textViewPaired = (TextView) findViewById(R.id.textViewPaired);
@@ -99,8 +101,9 @@ So far the app works on the built in emulator on Android Studios. For some reaso
 The group has done a fulle 180. We no longer want to continue with bluetooth functionality to connect to the ESP32. We have now decided on a new communication protocol, which is wifi. So I have begun research onto how we can get Wifi to work. I have been looking at sources online such as stack overflow. I have also realized that for some reason, trying to get the library android networking to work for wifi. But every solution from online is stil causing errors for me. Besides that Me and Kevin have been diligenlty working to get the pcb fully funcitonal. But we ran into some issues. Our inital pcb soldering was met with improper soldering of our switches. We did get wifi connectivity for a couple seconds before it fizzled out. Unfortunate events because our usb-c and esp32 were fully functional, so we need to restart. However, because we don't have the proper voltage regulator, the LM1117. We must wait until we get that part.
 PSEDOCODE: 
 
-1. void setup() {
+1.
 
+void setup() {
   Serial.begin(115200);
   WiFi.mode(WIFI_AP);
   WiFi.softAP(ssid, password);
@@ -109,14 +112,13 @@ PSEDOCODE:
   server.begin();      // Start the server
   pinMode(2, OUTPUT);  // Set onboard LED as an output
 }
-
 void loop() {
   WiFiClient client = server.available();  // Listen for incoming clients
 
   if (client) {                                  // If a client connects
     String data = client.readStringUntil('\n');  // Read the data from the client
     Serial.println(data);                        // Print the data to the serial monitor
-
+    
     if (data == "Hello, ESP32!") {  // If the data is "Hello, ESP32!"
       // Flash the onboard LED twice
       for (int i = 0; i < 2; i++) {
